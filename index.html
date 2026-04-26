@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Storylivingry Studio — Making a Livingry</title>
+<meta name="description" content="A studio whose product is livingry made of story. Films, technology, theatrical work, publications, governance frames, businesses, coalitions." />
+<meta property="og:title" content="Storylivingry Studio" />
+<meta property="og:description" content="Making a Livingry. A studio that produces livingry made of story." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Color journey — top to bottom */
+    --bg-night:   #0A0810;    /* warm midnight, faint violet */
+    --bg-deep:    #0E0B08;    /* deep warm black */
+    --bg-ember:   #1A0E07;    /* ember undertone */
+
+    /* Surface tones */
+    --cream:        #EDE5D6;
+    --cream-warm:   #E8DFC9;
+    --cream-bright: #F7F1E5;
+
+    /* Gold family */
+    --gold:        #D4A647;
+    --gold-bright: #E8B95C;
+    --gold-fire:   #F0CD75;
+    --gold-muted:  rgba(212, 166, 71, 0.62);
+    --gold-faint:  rgba(212, 166, 71, 0.22);
+    --gold-whisper:rgba(212, 166, 71, 0.10);
+
+    /* Fire */
+    --ember:       #C7421F;
+    --ember-soft:  #D55A33;
+    --ember-deep:  #8E2C12;
+
+    --rule:      rgba(212, 166, 71, 0.18);
+    --rule-soft: rgba(212, 166, 71, 0.08);
+
+    /* Type */
+    --display: 'Fraunces', 'GT Sectra', 'Lyon Display', Georgia, serif;
+    --body:    'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+    --mono:    'IBM Plex Mono', 'Berkeley Mono', Consolas, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    /* Color journey baked into the page itself */
+    background:
+      linear-gradient(
+        180deg,
+        var(--bg-night)  0%,
+        var(--bg-deep)   28%,
+        var(--bg-deep)   62%,
+        var(--bg-ember) 100%
+      );
+    background-attachment: fixed;
+    color: var(--cream);
+    font-family: var(--body);
+    font-weight: 400;
+    line-height: 1.65;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    position: relative;
+    animation: filmOpen 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes filmOpen {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ===== ATMOSPHERIC LAYERS ===== */
+  .atm {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .atm-top {
+    top: -50vh; left: 50%;
+    transform: translateX(-50%);
+    width: 140vw; height: 110vh;
+    background: radial-gradient(ellipse at center,
+      rgba(240, 205, 117, 0.10) 0%,
+      rgba(212, 166, 71, 0.04) 32%,
+      transparent 65%);
+  }
+
+  .atm-mid {
+    top: 50%; left: 25%;
+    width: 90vw; height: 90vh;
+    transform: translateY(-50%);
+    background: radial-gradient(ellipse at center,
+      rgba(212, 166, 71, 0.06) 0%,
+      transparent 60%);
+  }
+
+  .atm-bottom {
+    bottom: -40vh; right: -10vw;
+    width: 90vw; height: 80vh;
+    background: radial-gradient(ellipse at center,
+      rgba(199, 66, 31, 0.10) 0%,
+      rgba(212, 166, 71, 0.03) 40%,
+      transparent 70%);
+  }
+
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(ellipse at center,
+      transparent 38%,
+      rgba(8, 5, 3, 0.38) 82%,
+      rgba(8, 5, 3, 0.7)  100%);
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.48 0 0 0 0 0.32 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.55;
+    mix-blend-mode: overlay;
+  }
+
+  main {
+    position: relative;
+    z-index: 3;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* =========================================
+     TITLE PLATE — opens like a film studio card
+     ========================================= */
+  .title-plate {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 44px 0 64px;
+    position: relative;
+  }
+
+  .plate-dateline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+  }
+
+  .plate-dateline .mark { color: var(--gold); }
+
+  .plate-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    justify-content: center;
+    padding: 60px 0;
+    position: relative;
+  }
+
+  .plate-prelude {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.46em;
+    text-transform: uppercase;
+    color: var(--ember-soft);
+    margin-bottom: 64px;
+    opacity: 0;
+    animation: rise 1.4s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .plate-name {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(56px, 11vw, 148px);
+    font-variation-settings: "opsz" 144;
+    line-height: 0.94;
+    letter-spacing: -0.028em;
+    color: var(--cream-bright);
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: rise 1.8s 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    text-shadow: 0 0 60px rgba(240, 205, 117, 0.18);
+  }
+
+  .plate-descriptor {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0;
+    animation: rise 1.6s 1.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .plate-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+    opacity: 0;
+    animation: rise 1.4s 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(180deg, transparent 0%, var(--gold-muted) 100%);
+    animation: scrollPulse 2.6s ease-in-out 2.4s infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(0.6); transform-origin: top; }
+    50%      { opacity: 1;   transform: scaleY(1); }
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* =========================================
+     TAGLINE — the actual claim, asymmetric
+     ========================================= */
+  .tagline-zone {
+    padding: 140px 0 110px;
+    position: relative;
+  }
+
+  .tagline-mark {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--ember-soft);
+    margin-bottom: 56px;
+    display: block;
+  }
+
+  .tagline {
+    font-family: var(--display);
+    font-variation-settings: "opsz" 96, "wght" 400;
+    font-weight: 400;
+    font-size: clamp(44px, 7.6vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    color: var(--cream-bright);
+    margin-bottom: 60px;
+    max-width: 880px;
+  }
+
+  .tagline em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gold-fire);
+    animation: breathe 6s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { text-shadow: 0 0 28px rgba(240, 205, 117, 0.22); }
+    50%      { text-shadow: 0 0 48px rgba(240, 205, 117, 0.42); }
+  }
+
+  .tagline-secondary {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(22px, 2.6vw, 30px);
+    font-variation-settings: "opsz" 36;
+    line-height: 1.42;
+    color: var(--cream-warm);
+    padding-left: 64px;
+    border-left: 1px solid var(--gold-faint);
+    max-width: 480px;
+  }
+
+  /* =========================================
+     CUSTOM FLOURISH (hand-feel, recursive)
+     ========================================= */
+  .flourish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    padding: 16px 0;
+  }
+
+  .flourish-line {
+    flex: 1;
+    max-width: 220px;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--gold-faint) 25%,
+      var(--gold-faint) 75%,
+      transparent 100%);
+  }
+
+  .flourish-glyph {
+    width: 36px;
+    height: 22px;
+    color: var(--gold-muted);
+    flex-shrink: 0;
+  }
+
+  /* =========================================
+     INTRO — drop cap, breathing prose
+     ========================================= */
+  .intro {
+    padding: 110px 0 130px;
+    max-width: 700px;
+  }
+
+  .intro p {
+    font-family: var(--display);
+    font-variation-settings: "opsz" 24, "wght" 400;
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 1.52;
+    color: var(--cream-warm);
+    margin-bottom: 36px;
+    letter-spacing: 0.002em;
+  }
+
+  .intro p:last-child { margin-bottom: 0; }
+
+  .intro em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gold-fire);
+  }
+
+  .intro p:first-child::first-letter {
+    font-family: var(--display);
+    font-variation-settings: "opsz" 144, "wght" 500;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 5.8em;
+    line-height: 0.82;
+    float: left;
+    margin: 0.05em 0.14em -0.04em -0.04em;
+    color: var(--gold-fire);
+    text-shadow: 0 0 36px rgba(240, 205, 117, 0.36);
+  }
+
+  /* =========================================
+     PRODUCTIONS — Roman numeral manuscript
+     ========================================= */
+  .productions-zone {
+    padding: 100px 0 120px;
+  }
+
+  .section-mark {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+    margin-bottom: 56px;
+    display: block;
+  }
+
+  .section-heading {
+    font-family: var(--display);
+    font-variation-settings: "opsz" 72, "wght" 400;
+    font-weight: 400;
+    font-size: clamp(36px, 5.2vw, 56px);
+    line-height: 1.08;
+    color: var(--cream-bright);
+    margin-bottom: 96px;
+    letter-spacing: -0.018em;
+    max-width: 760px;
+  }
+
+  .section-heading em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gold-fire);
+    animation: breathe 7s ease-in-out infinite;
+  }
+
+  .productions { list-style: none; }
+
+  .production {
+    padding: 48px 0;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 96px 1fr auto;
+    gap: 40px;
+    align-items: baseline;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: padding 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .production:last-child { border-bottom: 1px solid var(--rule); }
+
+  .production::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(212, 166, 71, 0.04) 30%,
+      rgba(240, 205, 117, 0.07) 50%,
+      rgba(212, 166, 71, 0.04) 70%,
+      transparent 100%);
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    pointer-events: none;
+  }
+
+  .production:hover::before { opacity: 1; }
+  .production:hover { padding-left: 12px; padding-right: 12px; }
+
+  .production:hover .production-title {
+    color: var(--gold-fire);
+  }
+  .production:hover .production-arrow {
+    transform: translateX(10px);
+    color: var(--gold-fire);
+    opacity: 1;
+  }
+  .production:hover .roman {
+    color: var(--gold-fire);
+    transform: translateX(-4px);
+  }
+
+  .roman {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-variation-settings: "opsz" 96, "wght" 400;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--gold);
+    letter-spacing: -0.02em;
+    transition: color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .production-body { min-width: 0; }
+
+  .production-title {
+    font-family: var(--display);
+    font-variation-settings: "opsz" 36, "wght" 500;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.18;
+    color: var(--cream-bright);
+    margin-bottom: 12px;
+    letter-spacing: -0.012em;
+    transition: color 0.5s ease;
+  }
+
+  .production-title em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gold-fire);
+  }
+
+  .production-desc {
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.62;
+    color: var(--cream-warm);
+    opacity: 0.78;
+    margin-bottom: 14px;
+    max-width: 520px;
+  }
+
+  .production-url {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ember-soft);
+  }
+
+  .production-arrow {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--gold-muted);
+    opacity: 0.65;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease, opacity 0.4s ease;
+    line-height: 1;
+    align-self: center;
+  }
+
+  /* =========================================
+     PULL QUOTE — the major moment
+     ========================================= */
+  .pull-quote {
+    padding: 160px 0 150px;
+    position: relative;
+  }
+
+  .pq-mark-zone {
+    margin-bottom: 56px;
+  }
+
+  .pq-quotemark {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 180px;
+    line-height: 0.6;
+    color: var(--gold-fire);
+    opacity: 0.42;
+    height: 80px;
+    overflow: hidden;
+    display: block;
+    text-shadow: 0 0 50px rgba(240, 205, 117, 0.3);
+  }
+
+  .pq-text {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-variation-settings: "opsz" 96;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.22;
+    color: var(--cream-bright);
+    max-width: 780px;
+    margin-bottom: 56px;
+    letter-spacing: -0.018em;
+  }
+
+  .pq-attribution {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-left: 80px;
+  }
+
+  .pq-bar {
+    width: 64px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .pq-attribution cite {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  /* =========================================
+     CLOSING / FOOTER
+     ========================================= */
+  footer {
+    padding: 110px 0 84px;
+    border-top: 1px solid var(--rule);
+    margin-top: 24px;
+    position: relative;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+  }
+
+  .footer-mark-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-wordmark {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-variation-settings: "opsz" 36;
+    font-size: 30px;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(212, 166, 71, 0.22);
+  }
+
+  .footer-descriptor {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+  }
+
+  .footer-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-end;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-muted);
+  }
+
+  .footer-meta a {
+    color: var(--ember-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s ease;
+  }
+  .footer-meta a:hover { border-bottom-color: var(--ember-soft); }
+
+  .footer-license { opacity: 0.65; }
+
+  /* =========================================
+     MOBILE
+     ========================================= */
+  @media (max-width: 700px) {
+    main { padding: 0 24px; }
+
+    .title-plate { padding: 28px 0 48px; }
+
+    .plate-dateline {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .plate-prelude { margin-bottom: 40px; }
+    .plate-name { margin-bottom: 32px; }
+
+    .tagline-zone { padding: 84px 0 70px; }
+
+    .tagline-secondary {
+      padding-left: 28px;
+    }
+
+    .intro { padding: 70px 0 80px; }
+    .intro p { font-size: 19px; }
+    .intro p:first-child::first-letter { font-size: 4.6em; }
+
+    .productions-zone { padding: 64px 0 80px; }
+    .section-heading { margin-bottom: 64px; }
+
+    .production {
+      grid-template-columns: 56px 1fr;
+      gap: 22px;
+      padding: 36px 0;
+    }
+    .production-arrow { display: none; }
+    .roman { font-size: 40px; }
+    .production-title { font-size: 23px; }
+
+    .pull-quote { padding: 96px 0 88px; }
+    .pq-quotemark { font-size: 130px; height: 60px; }
+    .pq-attribution { padding-left: 40px; gap: 16px; }
+    .pq-bar { width: 40px; }
+
+    footer { padding: 80px 0 60px; }
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .footer-meta { align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body, .plate-prelude, .plate-name, .plate-descriptor, .plate-scroll,
+    .scroll-line, .tagline em, .section-heading em {
+      opacity: 1;
+      transform: none;
+      animation: none;
+      text-shadow: none;
+    }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Atmosphere -->
+<div class="atm atm-top"></div>
+<div class="atm atm-mid"></div>
+<div class="atm atm-bottom"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+
+<!-- SVG defs — custom flourishes -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Hand-feel hearth flourish: central flame, flanked by recursive diamonds -->
+    <symbol id="flourish-hearth" viewBox="0 0 36 22">
+      <!-- Left diamond, smaller (recursive scale) -->
+      <polygon points="3,11 6,8 9,11 6,14" fill="none" stroke="currentColor" stroke-width="0.7" />
+      <!-- Center flame: stylized teardrop, two layers -->
+      <path d="M 18 3
+               C 16 7, 14 10, 14 13
+               C 14 16.5, 16 19, 18 19
+               C 20 19, 22 16.5, 22 13
+               C 22 10, 20 7, 18 3 Z"
+            fill="none" stroke="currentColor" stroke-width="0.7" />
+      <path d="M 18 8
+               C 17 10, 16.5 12, 16.5 13.5
+               C 16.5 15.5, 17 17, 18 17
+               C 19 17, 19.5 15.5, 19.5 13.5
+               C 19.5 12, 19 10, 18 8 Z"
+            fill="currentColor" opacity="0.55" />
+      <!-- Right diamond, smaller (recursive scale) -->
+      <polygon points="27,11 30,8 33,11 30,14" fill="none" stroke="currentColor" stroke-width="0.7" />
+    </symbol>
+  </defs>
+</svg>
+
+<main>
+
+  <!-- =========================================
+       TITLE PLATE — film-studio opening card
+       ========================================= -->
+  <section class="title-plate">
+
+    <div class="plate-dateline">
+      <span class="mark">A STUDIO</span>
+      <span>EST. 2026 · NEW JERSEY</span>
+    </div>
+
+    <div class="plate-center">
+      <span class="plate-prelude">[ PRESENTING ]</span>
+      <h1 class="plate-name">Storylivingry</h1>
+      <span class="plate-descriptor">Making a Livingry</span>
+    </div>
+
+    <div class="plate-scroll">
+      <span>SCROLL</span>
+      <span class="scroll-line"></span>
+    </div>
+
+  </section>
+
+  <!-- =========================================
+       TAGLINE — the actual claim
+       ========================================= -->
+  <section class="tagline-zone">
+    <span class="tagline-mark">§ 01 / THE CLAIM</span>
+    <h2 class="tagline">
+      Story is load-bearing<br />
+      civilizational <em>infrastructure</em>.
+    </h2>
+    <p class="tagline-secondary">
+      We are making a livingry.
+    </p>
+  </section>
+
+  <!-- Flourish -->
+  <div class="flourish">
+    <span class="flourish-line"></span>
+    <svg class="flourish-glyph"><use href="#flourish-hearth"/></svg>
+    <span class="flourish-line"></span>
+  </div>
+
+  <!-- =========================================
+       INTRO — drop cap, breathing prose
+       ========================================= -->
+  <section class="intro">
+    <p>
+      Storylivingry is a studio. We produce films, technology, theatrical work, publications, governance frames, businesses, coalitions — and the philosophical scaffolding that holds them together.
+    </p>
+    <p>
+      "Production studio" undersells it. Story is the means by which humans coordinate, govern, evolve, and become themselves. When story is treated as such — as <em>livingry</em>, in Buckminster Fuller's term, the opposite of weaponry — then a studio that takes story seriously is doing something closer to civic architecture than to media production.
+    </p>
+    <p>
+      We don't reform the broken model. We build the alternative so well it makes the old one obsolete.
+    </p>
+  </section>
+
+  <!-- Flourish -->
+  <div class="flourish">
+    <span class="flourish-line"></span>
+    <svg class="flourish-glyph"><use href="#flourish-hearth"/></svg>
+    <span class="flourish-line"></span>
+  </div>
+
+  <!-- =========================================
+       PRODUCTIONS — manuscript with Roman numerals
+       ========================================= -->
+  <section class="productions-zone" id="productions">
+    <span class="section-mark">§ 02 / THE PRODUCTIONS</span>
+    <h2 class="section-heading">
+      A studio whose product is <em>livingry</em><br />made of story.
+    </h2>
+
+    <div class="productions">
+
+      <a class="production" href="https://moviement.productions" target="_blank" rel="noopener">
+        <span class="roman">i.</span>
+        <div class="production-body">
+          <div class="production-title">A Civil Rights <em>Moviement</em> for the Soul</div>
+          <p class="production-desc">The flagship banner — a Transmedium Production for mental health reformation and human flourishing.</p>
+          <span class="production-url">moviement.productions</span>
+        </div>
+        <span class="production-arrow">→</span>
+      </a>
+
+      <a class="production" href="https://depsy.info" target="_blank" rel="noopener">
+        <span class="roman">ii.</span>
+        <div class="production-body">
+          <div class="production-title">DePsy</div>
+          <p class="production-desc">The decentralized mental health operating system. The people whose lives built the knowledge should own it.</p>
+          <span class="production-url">depsy.info</span>
+        </div>
+        <span class="production-arrow">→</span>
+      </a>
+
+      <a class="production" href="https://stonesynergysoup.com" target="_blank" rel="noopener">
+        <span class="roman">iii.</span>
+        <div class="production-body">
+          <div class="production-title">The Mental Health Reformation <em>Consortium</em></div>
+          <p class="production-desc">A multi-sector alliance. Public-private partnership for the reformation. The stone was never the ingredient — it was the invitation.</p>
+          <span class="production-url">stonesynergysoup.com</span>
+        </div>
+        <span class="production-arrow">→</span>
+      </a>
+
+      <a class="production" href="https://socialeffectsnj.com" target="_blank" rel="noopener">
+        <span class="roman">iv.</span>
+        <div class="production-body">
+          <div class="production-title">Social Effects</div>
+          <p class="production-desc">Filmanthropy and Regenerative Filmmaking. Every set, a permanent gift. Every production budget, a community investment.</p>
+          <span class="production-url">socialeffectsnj.com</span>
+        </div>
+        <span class="production-arrow">→</span>
+      </a>
+
+      <a class="production" href="https://thesyntonytimes.substack.com" target="_blank" rel="noopener">
+        <span class="roman">v.</span>
+        <div class="production-body">
+          <div class="production-title">The Syntony Times</div>
+          <p class="production-desc">The publication. Dispatches from the work. Where the studio thinks out loud.</p>
+          <span class="production-url">thesyntonytimes.substack.com</span>
+        </div>
+        <span class="production-arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- =========================================
+       PULL QUOTE — major moment
+       ========================================= -->
+  <section class="pull-quote">
+    <div class="pq-mark-zone">
+      <span class="pq-quotemark">&ldquo;</span>
+    </div>
+    <blockquote class="pq-text">
+      We are called to be architects of the future, not its victims.
+    </blockquote>
+    <div class="pq-attribution">
+      <span class="pq-bar"></span>
+      <cite>Buckminster Fuller</cite>
+    </div>
+  </section>
+
+  <!-- =========================================
+       FOOTER
+       ========================================= -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-mark-block">
+        <span class="footer-wordmark">Storylivingry</span>
+        <span class="footer-descriptor">Making a Livingry</span>
+      </div>
+      <div class="footer-meta">
+        <a href="mailto:bret@bretwarshawsky.com">bret@bretwarshawsky.com</a>
+        <span class="footer-license">© 2026 · CC BY-NC 4.0</span>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>
