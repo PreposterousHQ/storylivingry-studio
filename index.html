@@ -251,6 +251,92 @@
   }
 
   /* =========================================
+     LIVINGRY FRAME — bucky's claim before § 01
+     ========================================= */
+  .livingry-frame {
+    position: relative;
+    padding: 130px 0 140px;
+  }
+
+  .lf-image {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 480px;
+    width: auto;
+    max-width: 42%;
+    opacity: 0.78;
+    filter: saturate(1.04);
+    -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(90deg, rgba(0,0,0,1) 58%, rgba(0,0,0,0) 100%);
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .lf-card {
+    position: relative;
+    z-index: 2;
+    max-width: 580px;
+    margin: 0 0 0 36%;
+    padding: 48px 52px 44px;
+    background: linear-gradient(180deg,
+      rgba(14, 11, 8, 0.72) 0%,
+      rgba(10, 8, 6, 0.85) 100%);
+    border: 1px solid var(--gold-faint);
+    border-radius: 2px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.4),
+      0 40px 100px rgba(0, 0, 0, 0.5);
+  }
+
+  .lf-text {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 300;
+    font-variation-settings: "opsz" 48, "wght" 400;
+    font-size: clamp(18px, 1.95vw, 22px);
+    line-height: 1.52;
+    color: var(--cream-bright);
+    letter-spacing: -0.003em;
+    margin: 0;
+  }
+
+  .lf-text em {
+    font-style: italic;
+    font-weight: 600;
+    color: var(--gold-fire);
+    text-shadow: 0 0 32px rgba(240, 205, 117, 0.4);
+  }
+
+  .lf-attribution {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .lf-bar {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .lf-attribution cite {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  /* =========================================
      TAGLINE — the actual claim, asymmetric
      ========================================= */
   .tagline-zone {
@@ -669,6 +755,26 @@
     .plate-prelude { margin-bottom: 40px; }
     .plate-name { margin-bottom: 32px; }
 
+    .livingry-frame { padding: 72px 0 80px; }
+    .lf-image {
+      position: relative;
+      top: auto;
+      left: auto;
+      transform: none;
+      height: 280px;
+      max-width: 100%;
+      margin: 0 auto 32px;
+      display: block;
+      -webkit-mask-image: none;
+      mask-image: none;
+      opacity: 0.92;
+    }
+    .lf-card {
+      margin: 0;
+      padding: 32px 24px 28px;
+    }
+    .lf-text { font-size: 17px; line-height: 1.5; }
+
     .tagline-zone { padding: 84px 0 70px; }
 
     .tagline-secondary {
@@ -774,6 +880,20 @@
       <span class="scroll-line"></span>
     </div>
 
+  </section>
+
+  <!-- =========================================
+       LIVINGRY FRAME — bucky's claim, sets up § 01
+       ========================================= -->
+  <section class="livingry-frame">
+    <img class="lf-image" src="assets/bucky-dome.jpg" alt="Buckminster Fuller atop a geodesic dome" loading="lazy" />
+    <blockquote class="lf-card">
+      <p class="lf-text">It is now highly feasible to take care of everybody on Earth at a higher standard of living than any have ever known. It no longer has to be you or me. Selfishness is unnecessary. War is obsolete. It is a matter of converting the high technology from weaponry to <em>livingry</em>.</p>
+      <div class="lf-attribution">
+        <span class="lf-bar"></span>
+        <cite>Buckminster Fuller</cite>
+      </div>
+    </blockquote>
   </section>
 
   <!-- =========================================
